@@ -30,3 +30,9 @@ Produtos
 • Preço (float)
 • Data de criação (date)
 • Estoque (integer)
+
+#Comandos
+
+Para o login de usuário e recuperação da API Key, é necessário utilizar a url:
+./api/authentication/login/ com o body em json enviando o "usuario" e "senha".
+A informação retornada será um json contendo apenas a API Key.
