@@ -8,7 +8,8 @@ from tastypie.authentication import ApiKeyAuthentication
 from django.conf.urls import url
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
-from tastypie.authorization import Authorization
+from tastypie.authorization import DjangoAuthorization
+from tastypie.authentication import ApiKeyAuthentication
 
 
 #o authorization serve para permitir post put e delete sem login, sendo utilizado durante os testes
@@ -18,7 +19,8 @@ class ProdutoResource(ModelResource):
 	class Meta:
 		queryset = Produto.objects.all()
 		resource_name = 'produto'
-		authorization = Authorization()
+		authorization = DjangoAuthorization()
+		authentication = ApiKeyAuthentication()
 
 		
 #resource do perfil	
@@ -34,14 +36,16 @@ class UsuarioResource(ModelResource):
 		queryset = User.objects.all()
 		resource_name = 'usuario'
 		fields = ['username','email','perfil']
-		authorization = Authorization()
+		authorization = DjangoAuthorization()
+		authentication = ApiKeyAuthentication()
 		
 #resource do pedido
 class PedidoResource(ModelResource):
 	class Meta:
 		queryset = Pedido.objects.all()
 		resource_name = 'pedido'
-		authorization = Authorization()
+		authorization = DjangoAuthorization()
+		authentication = ApiKeyAuthentication()
 		
 
 class AuthenticationResource(ModelResource):
