@@ -8,8 +8,8 @@ from tastypie.authentication import ApiKeyAuthentication
 from django.conf.urls import url
 from tastypie.resources import ModelResource
 from tastypie.utils import trailing_slash
-from tastypie.authorization import DjangoAuthorization
-from tastypie.authentication import ApiKeyAuthentication
+from tastypie.authorization import DjangoAuthorization,Authorization
+from tastypie.authentication import ApiKeyAuthentication,Authentication
 
 
 #o authorization serve para permitir post put e delete sem login, sendo utilizado durante os testes
@@ -21,6 +21,14 @@ class ProdutoResource(ModelResource):
 		resource_name = 'produto'
 		authorization = DjangoAuthorization()
 		authentication = ApiKeyAuthentication()
+	
+	#para o get de produtos e de detalhes de produto, não tem necessidade de autenticação, e é isso que esse código faz, permitindo get passar direto
+	def is_authenticated(self, request, **kwargs):
+		""" If POST, don't check auth, otherwise fall back to parent """
+		if request.method == "GET":
+			return True
+		else:
+			return super(AnonymousPostAuthentication, self).is_authenticated(request, **kwargs)
 
 		
 #resource do perfil	
@@ -54,7 +62,7 @@ class AuthenticationResource(ModelResource):
 		return '%s' % (user.api_key.key)
 
 	class Meta:
-		resource_name = 'authentication'
+		resource_name = 'auth'
 		queryset = User.objects.all()
 		allowed_methods = ['post']
 
@@ -64,6 +72,15 @@ class AuthenticationResource(ModelResource):
 				(self._meta.resource_name, trailing_slash()),
 				self.wrap_view('login'), name="api_login"),
 		]
+	
+	#para esse resource, não é necessário verificar alguma autenticação do usuário, esse é o próprio objetivo do POST, verificar e retornar a Key caso positivo.
+	#Por isso, temos a mudança do is_authenticated para garantir que ele possa mandar a requisição sem nenhum tipo de autorização
+	def is_authenticated(self, request, **kwargs):
+		""" If POST, don't check auth, otherwise fall back to parent """
+		if request.method == "POST":
+			return True
+		else:
+			return super(AnonymousPostAuthentication, self).is_authenticated(request, **kwargs)
 
 
 	def login(self, request, **kwargs):

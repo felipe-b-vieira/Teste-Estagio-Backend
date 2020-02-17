@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from api.views import erro_404, erro_500
 from api.resources import ProdutoResource,UsuarioResource,PedidoResource,AuthenticationResource
+from django.conf.urls import handler404, handler500
 
 produto_resource = ProdutoResource()
 usuario_resource = UsuarioResource()
@@ -29,3 +31,7 @@ urlpatterns = [
     url(r'^api/', include(pedido_resource.urls)),
     url(r'^api/', include(auth_resource.urls)),
 ]
+
+
+handler404 = erro_404
+handler500 = erro_500
