@@ -12,23 +12,40 @@ from tastypie.authorization import DjangoAuthorization,Authorization
 from tastypie.authentication import ApiKeyAuthentication,Authentication
 
 
-#o authorization serve para permitir post put e delete sem login, sendo utilizado durante os testes
-	
-#resource do produto
-class ProdutoResource(ModelResource):
-	class Meta:
-		queryset = Produto.objects.all()
-		resource_name = 'produto'
-		authorization = DjangoAuthorization()
-		authentication = ApiKeyAuthentication()
-	
-	#para o get de produtos e de detalhes de produto, não tem necessidade de autenticação, e é isso que esse código faz, permitindo get passar direto
+#a classe abaixo é usado para autenticar apenas em certos requests
+class ApiKeyAuthenticationFiltrado(ApiKeyAuthentication):
+
+    #para o get de produtos e de detalhes de produto, não tem necessidade de autenticação, e é isso que esse código faz, permitindo get passar direto
 	def is_authenticated(self, request, **kwargs):
-		""" If POST, don't check auth, otherwise fall back to parent """
+		""" If GET, don't check auth, otherwise fall back to parent """
 		if request.method == "GET":
 			return True
 		else:
-			return super(AnonymousPostAuthentication, self).is_authenticated(request, **kwargs)
+			return super(ApiKeyAuthenticationFiltrado, self).is_authenticated(request, **kwargs)
+
+#o authorization serve para permitir post put e delete sem login, sendo utilizado durante os testes
+
+
+#resource do produto
+class ProdutoResource(ModelResource):
+	data_criacao = fields.DateTimeField(attribute='data_criacao', use_in='detail')
+	descricao = fields.CharField(attribute='descricao', use_in='detail')
+	
+	class Meta:
+		queryset = Produto.objects.all()
+		resource_name = 'produto'
+		authorization = Authorization()
+		include_resource_uri = False
+		authentication = ApiKeyAuthenticationFiltrado()
+		
+	#altera o json de saida para o padrão
+	def alter_list_data_to_serialize(self, request, data):
+		if 'objects' in data:
+			d = {'products': ""}
+			d['products'] = data.pop('objects')
+			return d
+		return data
+	
 
 		
 #resource do perfil	
