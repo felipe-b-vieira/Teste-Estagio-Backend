@@ -28,7 +28,7 @@ class ApiKeyAuthenticationFiltrado(ApiKeyAuthentication):
 
 #resource do produto
 class ProdutoResource(ModelResource):
-	data_criacao = fields.DateTimeField(attribute='data_criacao', use_in='detail')
+	data_criacao = fields.DateTimeField(attribute='data_criacao', use_in='detail', readonly=True)
 	descricao = fields.CharField(attribute='descricao', use_in='detail')
 	
 	class Meta:
@@ -37,6 +37,8 @@ class ProdutoResource(ModelResource):
 		authorization = Authorization()
 		include_resource_uri = False
 		authentication = ApiKeyAuthenticationFiltrado()
+		always_return_data = True
+		
 		
 	#altera o json de saida para o padrão
 	def alter_list_data_to_serialize(self, request, data):
