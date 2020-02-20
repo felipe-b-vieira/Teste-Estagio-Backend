@@ -21,6 +21,8 @@ Abaixo serão adicionadas informações em relação a documentação e utiliza�
 A API é composta de três entidades e seus respectivos campos:
 
 
+
+
 Pedidos:
 
 • Produto (foreign key)
@@ -32,6 +34,8 @@ Pedidos:
 • Preço total (float)
 
 • Pago (boolean)
+
+
 
 
 Usuários:
@@ -47,6 +51,8 @@ Usuários:
 • Último Nome (string)
 
 • Endereço (string)
+
+
 
 
 Produtos
@@ -75,6 +81,8 @@ Comando livre sem necessidade de autenticação, é necessário utilizar a url:
 
 A informação retornada será um json contendo um conjunto de produtos com quatro campos: Id, nome, preco e estoque.
 
+
+
 • GET - Retorna um JSON com a informação detalhada de 1 produto.
 
 Comando livre sem necessidade de autenticação, é necessário utilizar a url:
@@ -84,6 +92,8 @@ Comando livre sem necessidade de autenticação, é necessário utilizar a url:
 A informação retornada será um json contendo um único produto com seis campos: Id, nome, preco, data_criacao, descricao e 
 estoque.
 
+
+
 • POST - Cria um novo produto
 
 Comando que é necessário autenticação por Api Key, é necessário utilizar a url:
@@ -92,6 +102,8 @@ Comando que é necessário autenticação por Api Key, é necessário utilizar a
 
 A informação retornada será um json contendo as informações detalhadas do produto criado.
 
+
+
 • DELETE - Remove o produto criado
 
 Comando que é necessário autenticação por Api Key, é necessário utilizar a url:
@@ -99,6 +111,8 @@ Comando que é necessário autenticação por Api Key, é necessário utilizar a
 ./api/produto/id sem envio de body.
 
 Não será retornada informação.
+
+
 
 • PATCH - Atualiza produto
 
@@ -120,6 +134,8 @@ Comando que é necessário autenticação por Api Key, é necessário utilizar a
 
 A informação retornada será um json contendo um conjunto de pedidos com informações detalhadas.
 
+
+
 • GET - Retorna um JSON com a informação detalhada de 1 pedido.
 
 Comando que é necessário autenticação por Api Key, é necessário utilizar a url:
@@ -128,11 +144,15 @@ Comando que é necessário autenticação por Api Key, é necessário utilizar a
 
 A informação retornada será um json contendo um único pedido todas suas informações.
 
+
+
 • POST - Cria um novo pedido
 
 Comando que é necessário autenticação por Api Key, é necessário utilizar a url:
 
 ./api/pedido/ com envio de body com as informações do pedido.
+
+
 
 • DELETE - Remove o pedido criado
 
@@ -141,6 +161,8 @@ Comando que é necessário autenticação por Api Key, é necessário utilizar a
 ./api/pedido/id sem envio de body.
 
 Não será retornada informação.
+
+
 
 • PATCH - Atualiza pedido
 
