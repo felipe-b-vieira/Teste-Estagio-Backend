@@ -63,15 +63,17 @@ class UsuarioResource(ModelResource):
 		queryset = User.objects.all()
 		resource_name = 'usuario'
 		fields = ['username','email','perfil']
-		authorization = DjangoAuthorization()
+		authorization = Authorization()
 		authentication = ApiKeyAuthentication()
 		
 #resource do pedido
 class PedidoResource(ModelResource):
+	produto = fields.ForeignKey( ProdutoResource, 'produto', null=True)
+	usuario = fields.ForeignKey( UsuarioResource, 'usuario', null=True)
 	class Meta:
 		queryset = Pedido.objects.all()
 		resource_name = 'pedido'
-		authorization = DjangoAuthorization()
+		authorization = Authorization()
 		authentication = ApiKeyAuthentication()
 		
 
